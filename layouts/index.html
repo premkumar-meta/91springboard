@@ -1,0 +1,101 @@
+{{ define "main" }}
+  {{/*  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {{ range .Params.images }}
+          <div class="carousel-item active" data-bs-interval="10000">
+            <img src="{{ . }}" class="d-block w-100" alt="background">
+          </div>
+        {{ end }}
+    </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+  </div>  */}}
+  {{ $firstImage := index .Params.images 0 }}
+  <section class="hero">
+    <div class="bg-image"
+      style="background-image: url('{{ $firstImage }}');
+          height: 50vh;
+          width: 100vw;"
+      >
+        <div class="text-center align-items-center justify-content-center d-flex h-100 text-white">
+      <div>
+        <h1 class="fs-1">{{ .Params.heading }}</h1>
+        <p class="lead">{{ .Content }}</p>
+      </div>
+        </div>
+    </div>
+  </section>
+
+
+    {{ $about := .Site.GetPage "page" "about" }}
+    <section class="about">
+      <div class="container col-xxl-8 g-5">
+        <div class="row align-items-center justify-content-center py-5">
+          <div class="col-10 col-sm-8 col-lg-6">
+            {{ range $about.Params.images }}
+            <img src="{{ . }}" alt="about page image" class="img-fluid d-block mx-auto">
+            {{ end }}
+          </div>
+          <div class="col-lg-6 order-lg-first">
+            <h1>{{ $about.Params.heading }}</h1>
+            <p class="lead">{{ $about.Content }}</p>
+            <a href="{{ $about.Permalink | relURL}}" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+<!-- 
+    iterate through all the folders in the content directory
+    and display the content of the folders in the index.html file
+    names of the folders can be anything
+-->
+{{ range .Site.Sections }}
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <h2 class="fs-1 pb-3">{{ .Title }}</h2>
+        </div>
+    </div>
+    <div class="row pb-3">
+      {{ range .Pages }}
+        <div class="col-md-4">
+          <div class="card mb-3">
+              <img src="{{ .Params.thumbnail }}" class="card-img-top img-fluid" alt="{{ .Title }}">
+            <h5  class="card-title
+            ">{{ .Title }}</h5>
+            <p class="card-text">{{ .Summary }}</p>
+            <a href=" {{ .Permalink | relURL  }}" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+  {{end}}
+
+  
+  {{ $contact := .Site.GetPage "page" "contact" }}
+  <section class="contact">
+    <div class="container col-xxl-8 g-5">
+      <div class="row align-items-center justify-content-center py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          {{ range $contact.Params.images }}
+          <img src="{{ . }}" alt="contact page image" class="img-fluid d-block mx-auto">
+          {{ end }}
+        </div>
+        <div class="col-lg-6 order-lg-first">
+          <h1>{{ $contact.Params.heading }}</h1>
+          <p class="lead">{{ $contact.Content }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
